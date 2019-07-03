@@ -76,6 +76,8 @@ print(item_value)
 for j in range(43, 45):
     item_value = browser.find_element_by_xpath('//*[@id="app"]/div[' + item_number + ']/div/div/div[2]/form/div/div[2]/div[' + str(j) + ']/div/div/div[1]/div/input') \
         .get_attribute('value')
+    sheet.cell(row=row, column=col).value = item_value
+    col += 1
     print(item_value)
 
 wb.save(xlsx_file)
