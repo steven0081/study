@@ -12,8 +12,11 @@ data['languagetype'] = "CHN_ENG"  # 识别文字
 data['image'] = str(base64.b64encode(pic1), 'utf-8')
 decoded_data = urllib.parse.urlencode(data)
 #2、获取access_token，拼接API接口
-get_token = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=tYUZROdFGh8RM8vw6q6y1zFy&client_secret=y9bSmfPrpEAp70YtR6Bv2Rz3GbAd0QcR'
+get_token = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=L8DSGvCxigKvQxYGGR5b6OUn&client_secret=PnLBBvgV71A12NMSEG2PECbhTFxOpmNl'
+#通用文字识别
 API_url = 'https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic/?access_token='
+#手写文字识别
+#API_url = 'https://aip.baidubce.com/rest/2.0/ocr/v1/handwriting/?access_token='
 headers={"Content-Type": "application/x-www-form-urlencoded"}
 text = requests.get(get_token).text
 access_token = json.loads(text)['access_token']
@@ -22,6 +25,7 @@ url = API_url + access_token
 #3、请求API接口传入数据，返回文字
 response = requests.post(url, data= decoded_data, headers=headers)
 #print(response.text)
+'''
 words_result = json.loads(response.text)['words_result']
 temp_file = open('temp.txt', 'a')
 for words in words_result:
@@ -29,3 +33,4 @@ for words in words_result:
     #print(words['words'])
 
 temp_file.close()
+'''
