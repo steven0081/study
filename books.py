@@ -1,6 +1,7 @@
 import requests
 from lxml import etree
 import os, time
+from selenium import webdriver
 
 #1、请求首页，拿到HTML抽取小说名、小说链接
 headers={
@@ -29,17 +30,26 @@ class Spider(object):
     # 2、请求拿到目录数据，抽取章名、章链接
     def detail_request(self, bigtitle, src):
         url = 'https:'+src
-        print(url)
-        response = requests.get(url, headers=headers)
-        time.sleep(3)
-        print(response.text)
-        html = etree.HTML(response.text)
+        #response = requests.get(url, headers=headers)
+        brower = webdriver.Chrome()
+        brower.get(url)
+        brower.find_element_by_xpath('//*[@id="j_catalogPage"]').click()
+        time.sleep(1)
+        item_list = brower.find_elements_by_xpath('//*[@id="j-catalogWrap"]/div[*]/div[*]/ul/li/a')
+        #.find_elements_by_class_name('cf')
+        for item in item_list:
+            #提取到目录名称和链接
+            print(item.text,item.get_attribute('href'))
+
+        #print(response.text)
+        #html = etree.HTML(response.text)
+        '''
         littitle_list = html.xpath('//ul[@class="cf"]/li/a/text()')
         litsrc_list = html.xpath('//ul[@class="cf"]/li/a/@href')
         for title, src in zip(littitle_list, litsrc_list):
             print(bigtitle, title, src)
             #self.conten_request(bigtitle, title, src)
-
+'''
     def conten_request(self, bigtit, littitle, src):
         response = requests.get('https:' + src, headers=headers)
         html = etree.HTML(response.text)
