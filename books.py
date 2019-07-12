@@ -40,6 +40,9 @@ class Spider(object):
         for item in item_list:
             #提取到目录名称和链接
             print(item.text,item.get_attribute('href'))
+            littitle = item.text
+            litsrc = item.get_attribute('href')
+            self.conten_request(bigtitle, littitle, litsrc)
 
         #print(response.text)
         #html = etree.HTML(response.text)
@@ -49,16 +52,32 @@ class Spider(object):
         for title, src in zip(littitle_list, litsrc_list):
             print(bigtitle, title, src)
             #self.conten_request(bigtitle, title, src)
-'''
+'''#3、请求文章，拿到HTML数据，抽取文章内容并保存
     def conten_request(self, bigtit, littitle, src):
-        response = requests.get('https:' + src, headers=headers)
+        brower = webdriver.Chrome()
+        brower.get(src)
+        time.sleep(1)
+        #text = brower.find_element_by_xpath('//*[@id="chapter-389530162"]/div/div[2]')
+        text_list = brower.find_elements_by_tag_name('p')
+        content =''
+        for text in text_list:
+            content += text.text+'\n'
+        print(content)
+        filename = bigtit + '\\' + littitle + '.txt'
+        print(filename)
+        with open(filename, 'w') as f:
+            f.write(content)
+        brower.close()
+        '''
+        response = requests.get(src, headers=headers)
+        print(response.text)
         html = etree.HTML(response.text)
-        content = '\n'.join(html.xpath('//div[@class="read-content j_readContent]/p/text()'))
+        content = html.xpath('//div[@class="read-content j_readContent]/p/text()')
+        print(content)
+  
         filename = bigtit+'\\'+littitle + '.txt'
         with open(filename, 'wb', encoding='utf-8') as f:
             f.write(content)
-
-#3、请求文章，拿到HTML数据，抽取文章内容并保存
-
+'''
 spider = Spider()
 spider.index_request()
