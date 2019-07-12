@@ -62,9 +62,9 @@ class Spider(object):
         content =''
         for text in text_list:
             content += text.text+'\n'
-        print(content)
+        #print(content)
         filename = bigtit + '\\' + littitle + '.txt'
-        print(filename)
+        #print(filename)
         with open(filename, 'w') as f:
             f.write(content)
         brower.close()
