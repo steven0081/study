@@ -16,7 +16,6 @@ for str in str_list:
         'spd': 4,  # 语速取值0-9,默认为5中语速
         'pit': 8,  # 语调音量,取值0-9,默认为5中语调
         'per': 1  # 发音人选择,0为女声,1为男生,3为情感合成-度逍遥,4为情感合成-度丫丫,默认为普通女
-
     })
     with open('audio.mp3', 'ab') as f:
         f.write(result)
